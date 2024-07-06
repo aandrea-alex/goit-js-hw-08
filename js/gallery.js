@@ -71,7 +71,7 @@ const createGallery = (images) => {
   return images
     .map(({ preview, description, original }) => {
       return `<li class="gallery-item">
-            <a class="gallery-link" href="">
+            <a class="gallery-link" href="${original}">
               <img class="gallery-img"
                   src="${preview}"
                   alt="${description}"
@@ -86,3 +86,16 @@ const createGallery = (images) => {
 const imagesMarkup = createGallery(images);
 
 galleryRef.insertAdjacentHTML("beforeend", imagesMarkup);
+
+galleryRef.addEventListener("click", onImageClick);
+
+function onImageClick(event) {
+    event.preventDefault();
+    const targetRef = event.target;
+    if (!targetRef) return;  
+    const closestLi = targetRef.closest(".gallery-item"); 
+    const imgRef = closestLi.querySelector("a");
+    console.log("Large images url: ", imgRef.href) ; 
+}
+  
+  
