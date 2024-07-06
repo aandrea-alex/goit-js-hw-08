@@ -1,0 +1,28 @@
+.gallery {
+  width: 100%;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  background-color: var(--form-bgr-color);
+}
+
+.gallery-item {
+  max-width: 360px;
+  max-height: 200px;
+}
+
+.gallery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-link:hover,
+.gallery-link:focus {
+  cursor: url("../../img/bxs_hand-down.svg"), auto;
+}
+
+
