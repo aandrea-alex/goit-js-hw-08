@@ -65,6 +65,8 @@ const images = [
      },
     ];
     
+let modalWindowRef = null;
+const KEY_CODE_ESC = "Escape"; 
 const galleryRef = document.querySelector(".gallery");
 
 const createGallery = (images) => {
@@ -86,16 +88,46 @@ const createGallery = (images) => {
 const imagesMarkup = createGallery(images);
 
 galleryRef.insertAdjacentHTML("beforeend", imagesMarkup);
-
 galleryRef.addEventListener("click", onImageClick);
 
 function onImageClick(event) {
-    event.preventDefault();
     const targetRef = event.target;
-    if (!targetRef) return;  
-    const closestLi = targetRef.closest(".gallery-item"); 
-    const imgRef = closestLi.querySelector("a");
-    console.log("Large images url: ", imgRef.href) ; 
+    const isImageRef = targetRef.classList.contains("gallery-img");
+    if (!isImageRef) {
+      return;
+    }
+    event.preventDefault();
+  
+    const imageSrc = {
+      src: targetRef.dataset.source,
+      alt: targetRef.alt,
+      preview: targetRef.src,
+    };
+  
+    openModalWindow(imageSrc);
 }
   
+  function openModalWindow({ src, alt }) {
+    modalWindowRef = basicLightbox.create(
+      `<div class="lightbox-modal ">   
+          <img class="lightbox-image" src="${src}" alt="${alt}"/>           
+      </div>`,
+      {
+        onShow: () => {
+          document.addEventListener("keydown", onKeydown);
+        },
+        onClose: () => {
+          document.removeEventListener("keydown", onKeydown);
+        },
+        closable: true,
+      }
+    );
+    modalWindowRef.show();
+  }
+  
+  function onKeydown(event) {
+    if (event.code === KEY_CODE_ESC) {
+      modalWindowRef.close();
+    }
+  }
   
